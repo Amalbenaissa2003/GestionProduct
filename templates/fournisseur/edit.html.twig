@@ -1,44 +1,35 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Modifier le Fournisseur{% endblock %}
+{% block title %}Edit Supplier{% endblock %}
 
 {% block body %}
-<div class="form-container">
-    <h1>Modifier le Fournisseur</h1>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="page-title text-primary">
+            <i class="bi bi-pencil-square me-2"></i> Edit Supplier
+        </h1>
+        <a href="{{ path('app_fournisseur_index') }}" class="btn btn-outline-secondary shadow-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back to List
+        </a>
+    </div>
 
-    {{ form_start(form) }}
-
-        <div class="form-group">
-            {{ form_label(form.name, 'Nom du fournisseur') }}
-            {{ form_widget(form.name, {'attr': {'class': 'form-control', 'required': true}}) }}
-            {{ form_errors(form.name) }}
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <i class="bi bi-card-text me-2"></i> Supplier Information
         </div>
-
-        <div class="form-group">
-            {{ form_label(form.email, 'Email') }}
-            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'type':'email', 'required': true}}) }}
-            {{ form_errors(form.email) }}
+        <div class="card-body">
+            {{ include('fournisseur/_form.html.twig', {'button_label': 'Update'}) }}
         </div>
+    </div>
 
-        <div class="form-group">
-            {{ form_label(form.phone, 'Téléphone') }}
-            {{ form_widget(form.phone, {'attr': {'class': 'form-control', 'pattern':'[0-9]{8}', 'required': true}}) }}
-            {{ form_errors(form.phone) }}
-        </div>
+    <div class="text-center mt-4">
+        <a href="{{ path('app_fournisseur_index') }}" class="back-btn">
+            <i class="bi bi-arrow-left-circle me-1"></i> Back to supplier list
+        </a>
 
-        <div class="form-group">
-            {{ form_label(form.address, 'Adresse') }}
-            {{ form_widget(form.address, {'attr': {'class': 'form-control', 'required': true}}) }}
-            {{ form_errors(form.address) }}
-        </div>
-
-        <button type="submit" class="btn btn-primary mt-3">Mettre à jour</button>
-
-    {{ form_end(form) }}
-
-    <div style="text-align:center; margin-top:15px;">
-        <a href="{{ path('app_fournisseur_index') }}">⬅ Retour à la liste</a>
+        {{ include('fournisseur/_delete_form.html.twig') }}
     </div>
 </div>
 {% endblock %}
+
 
