@@ -1,37 +1,56 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Category index{% endblock %}
+{% block title %}Category Management{% endblock %}
 
 {% block body %}
-    <h1>Category index</h1>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="fw-bold text-primary">
+            <i class="bi bi-tags-fill me-2"></i> Categories
+        </h1>
+        <a href="{{ path('app_category_new') }}" class="btn btn-primary shadow-sm">
+            <i class="bi bi-plus-circle me-1"></i> Add New Category
+        </a>
+    </div>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Description</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for category in categories %}
-            <tr>
-                <td>{{ category.id }}</td>
-                <td>{{ category.name }}</td>
-                <td>{{ category.description }}</td>
-                <td>
-                    <a href="{{ path('app_category_show', {'id': category.id}) }}">show</a>
-                    <a href="{{ path('app_category_edit', {'id': category.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="4">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
-
-    <a href="{{ path('app_category_new') }}">Create new</a>
+    {% if categories is not empty %}
+        <div class="card shadow-sm border-0">
+            <div class="card-body">
+                <table class="table table-hover align-middle mb-0">
+                    <thead class="table-light">
+                        <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Description</th>
+                            <th scope="col" class="text-center">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    {% for category in categories %}
+                        <tr>
+                            <td class="fw-semibold">{{ category.id }}</td>
+                            <td>{{ category.name }}</td>
+                            <td class="text-muted">{{ category.description|length > 50 ? category.description|slice(0,50) ~ '…' : category.description }}</td>
+                            <td class="text-center">
+                                <a href="{{ path('app_category_show', {'id': category.id}) }}" 
+                                   class="btn btn-sm btn-outline-info me-1">
+                                    <i class="bi bi-eye"></i> Show
+                                </a>
+                                <a href="{{ path('app_category_edit', {'id': category.id}) }}" 
+                                   class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-pencil-square"></i> Edit
+                                </a>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    {% else %}
+        <div class="alert alert-warning text-center mt-4 shadow-sm">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i> No categories found.
+        </div>
+    {% endif %}
+</div>
 {% endblock %}
