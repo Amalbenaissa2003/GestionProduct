@@ -32,7 +32,7 @@ final class FournisseurController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->persist($fournisseur);
             $entityManager->flush();
-
+             $this->addFlash('success', 'Fournisseur ajouté avec succès ✅');
             return $this->redirectToRoute('app_fournisseur_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -58,7 +58,7 @@ final class FournisseurController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
-
+            $this->addFlash('success', 'Fournisseur mis à jour avec succès ✅');
             return $this->redirectToRoute('app_fournisseur_index', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -74,6 +74,10 @@ final class FournisseurController extends AbstractController
         if ($this->isCsrfTokenValid('delete'.$fournisseur->getId(), $request->getPayload()->getString('_token'))) {
             $entityManager->remove($fournisseur);
             $entityManager->flush();
+             $this->addFlash('success', 'Fournisseur supprimé avec succès ✅');
+        }
+        else {
+            $this->addFlash('error', 'Token CSRF invalide ❌');
         }
 
         return $this->redirectToRoute('app_fournisseur_index', [], Response::HTTP_SEE_OTHER);
