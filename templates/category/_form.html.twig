@@ -1,4 +1,23 @@
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+
+<div class="mb-4"> {# espace entre les champs #}
+    {{ form_label(form.name, 'Name', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.name, {'attr': {'class': 'form-control'}}) }}
+    {{ form_errors(form.name) }}
+</div>
+
+<div class="mb-4">
+    {{ form_label(form.description, 'Description', {'label_attr': {'class': 'form-label'}}) }}
+    {{ form_widget(form.description, {'attr': {'class': 'form-control', 'rows': 4}}) }}
+    {{ form_errors(form.description) }}
+</div>
+
+{# Ajoutez d'autres champs ici si nécessaire, en utilisant le même style #}
+
+<div class="text-center mt-4"> {# boîte pour le bouton Save/Update #}
+    <button type="submit" class="btn btn-primary px-4 py-2 shadow-sm">
+        <i class="bi bi-save me-2"></i> {{ button_label|default('Save') }}
+    </button>
+</div>
+
 {{ form_end(form) }}

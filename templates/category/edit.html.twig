@@ -2,12 +2,96 @@
 
 {% block title %}Edit Category{% endblock %}
 
+{% block stylesheets %}
+<style>
+    body {
+        font-family: 'Poppins', sans-serif;
+        background-color: #f8f9fa;
+    }
+
+    .page-title {
+        font-weight: 600;
+        color: #0d6efd;
+    }
+
+    .card {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+        max-width: 700px;
+        margin: auto;
+    }
+
+    .card-header {
+        background-color: #0d6efd;
+        color: white;
+        font-weight: 500;
+        border-top-left-radius: 15px;
+        border-top-right-radius: 15px;
+    }
+
+    .action-box {
+        background-color: #0d6efd; /* blue box for update button */
+        padding: 15px 20px;
+        border-radius: 10px;
+        text-align: center;
+        margin-top: 20px;
+    }
+
+    .action-box button {
+        background-color: white;
+        color: #0d6efd;
+        border: none;
+        font-weight: 600;
+        padding: 10px 25px;
+        border-radius: 8px;
+        transition: all 0.3s ease;
+    }
+
+    .action-box button:hover {
+        background-color: #e8f0ff;
+    }
+
+    .back-btn {
+        text-decoration: none;
+        color: #6c757d;
+        font-weight: 500;
+    }
+
+    .back-btn:hover {
+        text-decoration: underline;
+    }
+</style>
+{% endblock %}
+
 {% block body %}
-    <h1>Edit Category</h1>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="page-title">
+            <i class="bi bi-pencil-square me-2"></i> Edit Category
+        </h1>
+        <a href="{{ path('app_category_index') }}" class="btn btn-outline-secondary shadow-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back to List
+        </a>
+    </div>
 
-    {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
+    <div class="card shadow-sm">
+        <div class="card-header">
+            <i class="bi bi-card-text me-2"></i> Category Information
+        </div>
+        <div class="card-body">
+            {{ include('category/_form.html.twig', {'button_label': 'Update'}) }}
 
-    <a href="{{ path('app_category_index') }}">back to list</a>
+         
+        </div>
+    </div>
 
-    {{ include('category/_delete_form.html.twig') }}
+    <div class="text-center mt-4">
+        <a href="{{ path('app_category_index') }}" class="back-btn">
+            <i class="bi bi-arrow-left-circle me-1"></i> Back to category list
+        </a>
+
+        {{ include('category/_delete_form.html.twig') }}
+    </div>
+</div>
 {% endblock %}
