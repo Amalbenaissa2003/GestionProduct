@@ -19,15 +19,7 @@ body {
     color: #333;
 }
 
-/* ===== Navbar ===== */
-.navbar {
-    background-color: #e3f2fd;
-    border-bottom: 1px solid #d0d7e5;
-}
-.navbar .navbar-brand {
-    font-weight: 600;
-    color: var(--primary);
-}
+
 
 /* ===== Card containers ===== */
 .card-like {

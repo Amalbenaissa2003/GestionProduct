@@ -22,7 +22,7 @@ class FournisseurType extends AbstractType
     {
         $resolver->setDefaults([
             'data_class' => Fournisseur::class,
-            'csrf_protection' => false, // ⚠️ uniquement pour test
+            
         ]);
     }
 }
