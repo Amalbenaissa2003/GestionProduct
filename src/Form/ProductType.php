@@ -18,20 +18,14 @@ class ProductType extends AbstractType
             ->add('name')
             ->add('description')
             ->add('price')
-            ->add('createdAt', null, [
-                'widget' => 'single_text',
-            ])
-            ->add('updatedAt', null, [
-                'widget' => 'single_text',
-            ])
             ->add('image')
             ->add('category', EntityType::class, [
                 'class' => Category::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
             ->add('fournisseur', EntityType::class, [
                 'class' => Fournisseur::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
         ;
     }

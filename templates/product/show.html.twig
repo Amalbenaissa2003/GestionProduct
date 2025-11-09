@@ -1,46 +1,265 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Product{% endblock %}
+{% block title %}{{ product.name }} - Product Details{% endblock %}
+
+{% block stylesheets %}
+<style>
+    body {
+        background-color: #f8f9fb;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    .page-title {
+        font-weight: 600;
+        color: #0d6efd;
+    }
+
+    .back-link {
+        color: #6c757d;
+        text-decoration: none;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        transition: color 0.3s ease;
+    }
+
+    .back-link:hover {
+        color: #0d6efd;
+    }
+
+    .product-container {
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+        overflow: hidden;
+        margin-bottom: 3rem;
+    }
+
+    .product-image-section {
+        position: relative;
+        background: #f8f9fa;
+        min-height: 400px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+    }
+
+    .product-main-image {
+        max-width: 100%;
+        max-height: 450px;
+        object-fit: contain;
+        border-radius: 15px;
+    }
+
+    .product-info-section {
+        padding: 3rem;
+        background: white;
+    }
+
+    .product-title {
+        font-size: 2rem;
+        font-weight: 700;
+        color: #2c3e50;
+        margin-bottom: 1rem;
+    }
+
+    .product-price {
+        font-size: 1.75rem;
+        font-weight: 700;
+        color: #28a745;
+        margin-bottom: 1.5rem;
+    }
+
+    .product-description {
+        color: #6c757d;
+        font-size: 1.1rem;
+        line-height: 1.7;
+        margin-bottom: 2rem;
+    }
+
+    .product-meta {
+        background: #f8f9fa;
+        padding: 1.5rem;
+        border-radius: 15px;
+        margin-bottom: 2rem;
+    }
+
+    .meta-item {
+        display: flex;
+        align-items: center;
+        margin-bottom: 0.5rem;
+        color: #6c757d;
+    }
+
+    .meta-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .meta-item i {
+        width: 20px;
+        margin-right: 10px;
+        color: #0d6efd;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+    }
+
+    .btn-custom {
+        border-radius: 25px;
+        padding: 0.75rem 2rem;
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        border: none;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .btn-primary-custom {
+        background: linear-gradient(135deg, #0d6efd, #0a58ca);
+        color: white;
+    }
+
+    .btn-primary-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(13, 110, 253, 0.4);
+        color: white;
+    }
+
+    .btn-outline-custom {
+        border: 2px solid #6c757d;
+        color: #6c757d;
+        background: transparent;
+    }
+
+    .btn-outline-custom:hover {
+        background: #6c757d;
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .btn-danger-custom {
+        background: linear-gradient(135deg, #dc3545, #c82333);
+        color: white;
+    }
+
+    .btn-danger-custom:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(220, 53, 69, 0.4);
+        color: white;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+        .product-title {
+            font-size: 1.75rem;
+        }
+
+        .product-price {
+            font-size: 1.5rem;
+        }
+
+        .product-info-section {
+            padding: 2rem;
+        }
+
+        .product-image-section {
+            min-height: 300px;
+            padding: 1.5rem;
+        }
+
+        .product-main-image {
+            max-height: 250px;
+        }
+
+        .action-buttons {
+            flex-direction: column;
+        }
+
+        .btn-custom {
+            width: 100%;
+        }
+    }
+
+</style>
+{% endblock %}
 
 {% block body %}
-    <h1>Product</h1>
+<div class="container">
+       <div class="d-flex justify-content-between align-items-center mb-4">
+        <h1 class="page-title"><i class="bi bi-truck me-2"></i> Product Details</h1>
+        <a href="{{ path('app_fournisseur_index') }}" class="btn btn-outline-secondary shadow-sm">
+            <i class="bi bi-arrow-left me-1"></i> Back to List
+        </a>
+    </div>
+    <div class="product-container">
+        <div class="row g-0">
+            <!-- Product Image -->
+            <div class="col-lg-6">
+                <div class="product-image-section">
+                    {% if product.image %}
+                        <img src="{{ asset(product.image) }}" alt="{{ product.name }}" class="product-main-image">
+                    {% else %}
+                        <div class="image-placeholder">
+                            <i class="bi bi-image me-2"></i> No Image Available
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ product.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ product.name }}</td>
-            </tr>
-            <tr>
-                <th>Description</th>
-                <td>{{ product.description }}</td>
-            </tr>
-            <tr>
-                <th>Price</th>
-                <td>{{ product.price }}</td>
-            </tr>
-            <tr>
-                <th>CreatedAt</th>
-                <td>{{ product.createdAt ? product.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>UpdatedAt</th>
-                <td>{{ product.updatedAt ? product.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Image</th>
-                <td>{{ product.image }}</td>
-            </tr>
-        </tbody>
-    </table>
+            <!-- Product Information -->
+            <div class="col-lg-6">
+                <div class="product-info-section">
+                    <h1 class="product-title">{{ product.name }}</h1>
+                    
+                    <div class="product-price">{{ product.price }} DT</div>
+                    
+                    <div class="product-description">
+                        {{ product.description }}
+                    </div>
 
-    <a href="{{ path('app_product_index') }}">back to list</a>
+                    <div class="product-meta">
+                        <div class="meta-item">
+                            <i class="bi bi-tag"></i>
+                            <strong>Category:</strong> <span class="ms-1">{{ product.category ? product.category.name : 'Uncategorized' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="bi bi-calendar"></i>
+                            <strong>Created:</strong> <span class="ms-1">{{ product.createdAt ? product.createdAt|date('M d, Y') : 'N/A' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="bi bi-arrow-clockwise"></i>
+                            <strong>Last Updated:</strong> <span class="ms-1">{{ product.updatedAt ? product.updatedAt|date('M d, Y') : 'N/A' }}</span>
+                        </div>
+                        <div class="meta-item">
+                            <i class="bi bi-upc-scan"></i>
+                            <strong>Product ID:</strong> <span class="ms-1">#{{ product.id }}</span>
+                        </div>
+                    </div>
 
-    <a href="{{ path('app_product_edit', {'id': product.id}) }}">edit</a>
-
-    {{ include('product/_delete_form.html.twig') }}
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <a href="{{ path('app_product_edit', {'id': product.id}) }}" class="btn btn-primary-custom btn-custom">
+                            <i class="bi bi-pencil-square me-2"></i> Edit
+                        </a>
+                        {{ include('product/_delete_form.html.twig') }}
+                        <a href="{{ path('app_product_index') }}" class="btn btn-outline-custom btn-custom">
+                            <i class="bi bi-grid me-2"></i> View All
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 {% endblock %}
+
+
+
+
