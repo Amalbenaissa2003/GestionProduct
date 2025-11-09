@@ -158,7 +158,7 @@
             <table class="table table-hover">
                 <thead>
                     <tr>
-                        <th width="80">ID</th>
+                        <th width="80">#</th>
                         <th>Name</th>
                         <th>Description</th>
                         <th width="200" class="text-center">Actions</th>
@@ -167,7 +167,7 @@
                 <tbody>
                     {% for category in categories %}
                     <tr>
-                        <td><span class="badge-id">#{{ category.id }}</span></td>
+                        <td><span class="badge-id">#{{ loop.index }}</span></td>
                         <td><span class="category-name">{{ category.name }}</span></td>
                         <td>{{ category.description }}</td>
                         <td>
@@ -205,4 +205,3 @@
     {% endif %}
 </div>
 {% endblock %}
-
