@@ -14,11 +14,13 @@ use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TelType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 class RegistrationController extends AbstractController
 {
     #[Route('/register', name: 'app_register')]
-    public function register(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher): Response
+    public function register(Request $request, EntityManagerInterface $em, UserPasswordHasherInterface $passwordHasher ,MailerInterface $mailer): Response
     {
         $user = new User();
 
@@ -45,6 +47,20 @@ class RegistrationController extends AbstractController
 
             $em->persist($user);
             $em->flush();
+
+             // ----------- 📧 Envoi email automatique ----------------
+            $email = (new Email())
+                ->from('votre_email@gmail.com') // l'email expéditeur
+                ->to($user->getEmail()) // email du nouvel utilisateur
+                ->subject('Bienvenue sur notre site !')
+                ->html("
+                    <h2>Bonjour {$user->getFirstName()} !</h2>
+                    <p>Votre inscription a été effectuée avec succès.</p>
+                    <p>Merci de rejoindre notre plateforme.</p>
+                ");
+
+            $mailer->send($email);
+            // ---------------------------------------------------------
 
             $this->addFlash('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
             return $this->redirectToRoute('app_login');

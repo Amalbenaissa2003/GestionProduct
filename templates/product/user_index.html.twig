@@ -1,0 +1,430 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Product Gallery{% endblock %}
+
+{% block stylesheets %}
+<style>
+    :root {
+        --primary-blue: #0d6efd;
+        --primary-dark: #0056b3;
+        --accent-green: #28a745;
+        --text-dark: #2c3e50;
+        --text-muted: #6c757d;
+        --bg-light: #f8f9fb;
+        --card-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+        --card-shadow-hover: 0 15px 35px rgba(0, 0, 0, 0.15);
+        --border-radius: 16px;
+    }
+
+    .product-gallery {
+        background: var(--bg-light);
+        min-height: 100vh;
+        padding: 2rem 0;
+    }
+
+    .page-header {
+        background: linear-gradient(135deg, #fff 0%, #f8f9fa 100%);
+        border-radius: var(--border-radius);
+        padding: 2.5rem;
+        margin-bottom: 3rem;
+        box-shadow: var(--card-shadow);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+    }
+
+    .page-title {
+        font-weight: 800;
+        color: var(--text-dark);
+        font-size: 2.5rem;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(135deg, var(--primary-dark), var(--primary-blue));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .page-subtitle {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 0;
+    }
+
+    .header-actions {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+    }
+
+    .btn-primary {
+        background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+        border: none;
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        box-shadow: 0 4px 15px rgba(13, 110, 253, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 8px 25px rgba(13, 110, 253, 0.4);
+    }
+
+    .btn-outline-primary {
+        border: 2px solid var(--primary-blue);
+        color: var(--primary-blue);
+        border-radius: 12px;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .btn-outline-primary:hover {
+        background: var(--primary-blue);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .product-card {
+        border: none;
+        border-radius: var(--border-radius);
+        overflow: hidden;
+        box-shadow: var(--card-shadow);
+        transition: all 0.4s ease;
+        background: #fff;
+        height: 100%;
+        position: relative;
+    }
+
+    .product-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(135deg, var(--primary-blue), var(--accent-green));
+        transform: scaleX(0);
+        transition: transform 0.3s ease;
+    }
+
+    .product-card:hover {
+        transform: translateY(-10px);
+        box-shadow: var(--card-shadow-hover);
+    }
+
+    .product-card:hover::before {
+        transform: scaleX(1);
+    }
+
+    .product-image-container {
+        height: 240px;
+        overflow: hidden;
+        position: relative;
+        background: linear-gradient(135deg, #f8f9fa, #e9ecef);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 1.5rem;
+    }
+
+    .product-image {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+        transition: all 0.5s ease;
+        filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.1));
+    }
+
+    .product-card:hover .product-image {
+        transform: scale(1.08);
+        filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.15));
+    }
+
+    .card-body {
+        padding: 1.75rem;
+        display: flex;
+        flex-direction: column;
+        height: calc(100% - 240px);
+    }
+
+    .product-title {
+        font-weight: 700;
+        color: var(--text-dark);
+        margin-bottom: 0.75rem;
+        font-size: 1.2rem;
+        line-height: 1.3;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-description {
+        color: var(--text-muted);
+        font-size: 0.95rem;
+        line-height: 1.5;
+        flex-grow: 1;
+        margin-bottom: 1.25rem;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .product-meta {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .product-price {
+        font-size: 1.4rem;
+        font-weight: 800;
+        color: var(--accent-green);
+        margin: 0;
+    }
+
+    .product-category {
+        background: linear-gradient(135deg, #6c757d, #495057);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.8rem;
+        font-weight: 500;
+    }
+
+    .btn-cart {
+        border-radius: 12px;
+        font-size: 0.95rem;
+        font-weight: 600;
+        padding: 0.75rem 1.5rem;
+        transition: all 0.3s ease;
+        border: 2px solid var(--primary-blue);
+        background: transparent;
+        color: var(--primary-blue);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+    }
+
+    .btn-cart:hover {
+        background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+        color: #fff;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(13, 110, 253, 0.3);
+    }
+
+    .empty-state {
+        text-align: center;
+        padding: 5rem 2rem;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--card-shadow);
+    }
+
+    .empty-state i {
+        font-size: 5rem;
+        margin-bottom: 1.5rem;
+        background: linear-gradient(135deg, #dee2e6, #adb5bd);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+    }
+
+    .empty-state h3 {
+        color: var(--text-dark);
+        margin-bottom: 1rem;
+        font-weight: 700;
+    }
+
+    .empty-state p {
+        color: var(--text-muted);
+        font-size: 1.1rem;
+        margin-bottom: 2rem;
+    }
+
+    .products-grid {
+        margin-bottom: 4rem;
+    }
+
+    /* Filtres et recherche */
+    .filter-section {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        margin-bottom: 2rem;
+        box-shadow: var(--card-shadow);
+    }
+
+    .search-box {
+        position: relative;
+    }
+
+    .search-box input {
+        border-radius: 12px;
+        padding: 0.75rem 1rem 0.75rem 3rem;
+        border: 2px solid #e9ecef;
+        transition: all 0.3s ease;
+    }
+
+    .search-box input:focus {
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.1);
+    }
+
+    .search-box i {
+        position: absolute;
+        left: 1rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--text-muted);
+    }
+
+    /* Statistiques */
+    .stats-card {
+        background: white;
+        border-radius: var(--border-radius);
+        padding: 1.5rem;
+        box-shadow: var(--card-shadow);
+        text-align: center;
+        border-top: 4px solid var(--primary-blue);
+    }
+
+    .stats-number {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--primary-blue);
+        margin-bottom: 0.5rem;
+    }
+
+    .stats-label {
+        color: var(--text-muted);
+        font-size: 0.9rem;
+        font-weight: 500;
+    }
+
+    @media (max-width: 1200px) {
+        .product-image-container { height: 220px; }
+    }
+
+    @media (max-width: 992px) {
+        .page-header {
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .header-actions {
+            justify-content: center;
+            margin-top: 1.5rem;
+        }
+        
+        .product-image-container { height: 200px; }
+    }
+
+    @media (max-width: 768px) {
+        .page-title {
+            font-size: 2rem;
+        }
+        
+        .product-image-container { height: 180px; }
+        .card-body { padding: 1.5rem; }
+        
+        .product-meta {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .product-gallery {
+            padding: 1rem 0;
+        }
+        
+        .product-image-container { height: 160px; }
+        .col-md-4 { margin-bottom: 1.5rem; }
+        
+        .header-actions {
+            flex-direction: column;
+            width: 100%;
+        }
+        
+        .header-actions .btn {
+            width: 100%;
+            margin-bottom: 0.5rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="product-gallery">
+    <div class="container">
+        <!-- En-tête amélioré -->
+        <div class="page-header">
+            <div class="row align-items-center">
+                <div class="col-lg-8">
+                    <h1 class="page-title">
+                        <i class="bi bi-grid-3x3-gap-fill me-3"></i>Product Gallery
+                    </h1>
+                    <p class="page-subtitle">
+                        Discover our curated collection of premium products
+                    </p>
+                </div>
+                <div class="col-lg-4">
+                    <div class="header-actions">
+                        <a href="{{ path('app_home') }}" class="btn btn-primary">
+                            <i class="bi bi-cart4 me-2"></i> View Cart
+                        </a>
+                        <a href="{{ path('app_home') }}" class="btn btn-outline-primary">
+                            <i class="bi bi-house me-2"></i> Back Home
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+       <!-- Grille de produits -->
+        <div class="products-grid">
+            {% if products is not empty %}
+                <div class="row g-4">
+                    {% for product in products %}
+                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-6">
+                            <div class="card product-card">
+                                <div class="product-image-container">
+                                    <img src="{{ asset(product.image) }}" alt="{{ product.name }}" class="product-image">
+                                </div>
+                                <div class="card-body">
+                                    <h5 class="product-title">{{ product.name }}</h5>
+                                    <p class="product-description">
+                                        {{ product.description|slice(0, 120) }}{% if product.description|length > 120 %}...{% endif %}
+                                    </p>
+                                    <div class="product-meta">
+                                        <div class="product-price">{{ product.price }} DT</div>
+                                        <span class="product-category">Category</span>
+                                    </div>
+                                    <a href="{{ path('app_home', {'id': product.id}) }}" class="btn btn-cart">
+                                        <i class="bi bi-cart-plus me-2"></i> Add to Cart
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-inbox"></i>
+                    <h3>No Products Available</h3>
+                    <p>We're updating our catalog. Please check back later!</p>
+                    <a href="{{ path('app_home') }}" class="btn btn-primary">
+                        <i class="bi bi-arrow-left me-2"></i> Return to Home
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
+

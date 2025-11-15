@@ -14,13 +14,31 @@ use Symfony\Component\Routing\Attribute\Route;
 #[Route('/product')]
 final class ProductController extends AbstractController
 {
-    #[Route(name: 'app_product_index', methods: ['GET'])]
+    /*#[Route(name: 'app_product_index', methods: ['GET'])]
     public function index(ProductRepository $productRepository): Response
     {
         return $this->render('product/index.html.twig', [
             'products' => $productRepository->findAll(),
         ]);
+    }*/
+    #[Route(name: 'app_product_index', methods: ['GET'])]
+    public function index(ProductRepository $repo): Response
+    {
+        $products = $repo->findAll();
+
+        if ($this->isGranted('ROLE_ADMIN')) {
+            // admin : template complet CRUD
+            return $this->render('product/admin_index.html.twig', [
+                'products' => $products,
+        ]);
+        } else {
+            // utilisateur : template avec panier
+            return $this->render('product/user_index.html.twig', [
+                'products' => $products,
+            ]);
+        }
     }
+
 
     #[Route('/new', name: 'app_product_new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
