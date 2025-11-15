@@ -50,13 +50,12 @@ class RegistrationController extends AbstractController
 
              // ----------- 📧 Envoi email automatique ----------------
             $email = (new Email())
-                ->from('votre_email@gmail.com') // l'email expéditeur
                 ->to($user->getEmail()) // email du nouvel utilisateur
-                ->subject('Bienvenue sur notre site !')
+                ->subject('Welcome to our website! !')
                 ->html("
-                    <h2>Bonjour {$user->getFirstName()} !</h2>
-                    <p>Votre inscription a été effectuée avec succès.</p>
-                    <p>Merci de rejoindre notre plateforme.</p>
+                    <h2>Hello {$user->getFirstName()} !</h2>
+                    <p>Your registration was successful.</p>
+                    <p>Thank you for joining our platform.</p>
                 ");
 
             $mailer->send($email);

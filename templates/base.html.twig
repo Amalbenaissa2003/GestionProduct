@@ -88,13 +88,12 @@
             <i class="bi bi-house-door-fill me-1"></i> Home
           </a>
         </li>
-
+<!--
         <li class="nav-item">
           <a class="nav-link px-3 py-2 text-white" href="{{ path('app_product_index') }}">
             <i class="bi bi-bag-check me-1"></i> Products
           </a>
-        </li>
-
+        </li>-->
         <!-- Guest (not logged in) -->
         {% if not app.user %}
           <li class="nav-item">
@@ -103,17 +102,17 @@
             </a>
           </li>
 
-          <li class="nav-item">
+          <!--<li class="nav-item">
             <a class="nav-link px-3 py-2 text-white" href="{{ path('app_register') }}">
               <i class="bi bi-person-plus me-1"></i> Register
             </a>
-          </li>
+          </li>-->
 
-          <li class="nav-item">
+          <!--<li class="nav-item">
             <a class="nav-link px-3 py-2 text-white" href="{{ path('app_product_index') }}">
               <i class="bi bi-cart4 me-1"></i> Cart
             </a>
-          </li>
+          </li>-->
         {% endif %}
 
         <!-- Logged-in user -->
