@@ -21,6 +21,7 @@ security:
                 username_parameter: email   # <-- correspond au name du champ
                 password_parameter: password
                 default_target_path: /product
+                success_handler: App\Security\LoginSuccessHandler
             logout:
                 path: app_logout
                 target: /

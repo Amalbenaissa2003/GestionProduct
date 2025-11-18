@@ -17,22 +17,22 @@ class ProductType extends AbstractType
     {
         $builder
             ->add('name', null, [
-                'label' => 'Nom du produit',
+                'label' => 'Product Name',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Le nom du produit est obligatoire.',
+                        'message' => 'Product name is required.',
                     ]),
                     new Assert\Type([
                         'type' => 'string',
-                        'message' => 'Le nom doit être une chaîne de caractères.',
+                        'message' => 'The name must be a string.',
                     ]),
                     new Assert\Length([
                         'max' => 50,
-                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'The name cannot exceed {{ limit }} characters.',
                     ]),
                     new Assert\Regex([
                         'pattern' => '/^[A-Za-zÀ-ÖØ-öø-ÿ0-9\s\-]+$/',
-                        'message' => 'Le nom peut contenir uniquement des lettres, chiffres, espaces et tirets.',
+                        'message' => 'The name can only contain letters, numbers, spaces, and hyphens.',
                     ]),
                 ],
             ])
@@ -41,39 +41,39 @@ class ProductType extends AbstractType
                 'label' => 'Description',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'La description est obligatoire.',
+                        'message' => 'Description is required.',
                     ]),
                     new Assert\Length([
                         'max' => 500,
-                        'maxMessage' => 'La description ne peut pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'Description cannot exceed {{ limit }} characters.',
                     ]),
                 ],
             ])
 
             ->add('price', null, [
-                'label' => 'Prix (DT)',
+                'label' => 'Price (DT)',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Le prix est obligatoire.',
+                        'message' => 'Price is required.',
                     ]),
                     new Assert\Positive([
-                        'message' => 'Le prix doit être un nombre positif.',
+                        'message' => 'Price must be a positive number.',
                     ]),
                     new Assert\LessThan([
                         'value' => 10000,
-                        'message' => 'Le prix ne doit pas dépasser 10 000 DT.',
+                        'message' => 'Price cannot exceed 10,000 DT.',
                     ]),
                 ],
             ])
 
             ->add('image', null, [
-                'label' => 'Image (URL ou chemin)',
+                'label' => 'Image (URL or path)',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'L’image du produit est obligatoire.',
+                        'message' => 'Product image is required.',
                     ]),
                     new Assert\Url([
-                        'message' => 'L’image doit être une URL valide (ex: https://exemple.com/image.jpg).',
+                        'message' => 'The image must be a valid URL (e.g., https://example.com/image.jpg).',
                     ]),
                 ],
             ])
@@ -81,11 +81,11 @@ class ProductType extends AbstractType
             ->add('category', EntityType::class, [
                 'class' => Category::class,
                 'choice_label' => 'name',
-                'label' => 'Catégorie',
-                'placeholder' => 'Choisir une catégorie',
+                'label' => 'Category',
+                'placeholder' => 'Select a category',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Veuillez choisir une catégorie.',
+                        'message' => 'Please select a category.',
                     ]),
                 ],
             ])
@@ -93,11 +93,11 @@ class ProductType extends AbstractType
             ->add('fournisseur', EntityType::class, [
                 'class' => Fournisseur::class,
                 'choice_label' => 'name',
-                'label' => 'Fournisseur',
-                'placeholder' => 'Choisir un fournisseur',
+                'label' => 'Supplier',
+                'placeholder' => 'Select a supplier',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Veuillez choisir un fournisseur.',
+                        'message' => 'Please select a supplier.',
                     ]),
                 ],
             ]);

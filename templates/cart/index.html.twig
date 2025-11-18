@@ -1,0 +1,205 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}My Cart{% endblock %}
+
+{% block stylesheets %}
+<style>
+    :root {
+        --primary-blue: #0d6efd;
+        --primary-dark: #0056b3;
+        --accent-green: #28a745;
+        --accent-red: #dc3545;
+        --text-dark: #2c3e50;
+        --text-muted: #6c757d;
+        --bg-light: #f5f7fa;
+        --card-radius: 16px;
+        --shadow: 0 8px 20px rgba(0,0,0,0.08);
+    }
+
+    .cart-wrapper {
+        padding: 3rem 0;
+        background: var(--bg-light);
+        min-height: 100vh;
+    }
+
+    .cart-card {
+        background: white;
+        border-radius: var(--card-radius);
+        padding: 2rem;
+        box-shadow: var(--shadow);
+        margin-bottom: 2rem;
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .cart-title {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text-dark);
+        margin-bottom: 1.5rem;
+    }
+
+    .cart-item {
+        display: flex;
+        align-items: center;
+        padding: 1.5rem;
+        border-radius: 14px;
+        background: #fff;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+        transition: 0.3s ease;
+    }
+
+    .cart-item:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 8px 25px rgba(0,0,0,0.10);
+    }
+
+    .item-image {
+        width: 110px;
+        height: 110px;
+        border-radius: 14px;
+        overflow: hidden;
+        margin-right: 1.5rem;
+        background: #f0f2f5;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .item-image img {
+        max-width: 100%;
+        max-height: 100%;
+        object-fit: contain;
+    }
+
+    .item-info h5 {
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-dark);
+    }
+
+    .item-info p {
+        margin: 0;
+        color: var(--text-muted);
+        font-size: 0.9rem;
+    }
+
+    .item-price {
+        font-size: 1.3rem;
+        color: var(--accent-green);
+        font-weight: 700;
+    }
+
+    .remove-btn {
+        color: var(--accent-red);
+        font-weight: 600;
+        border: none;
+        background: none;
+        font-size: 1.1rem;
+        cursor: pointer;
+        transition: 0.3s ease;
+    }
+
+    .remove-btn:hover {
+        color: #b02a37;
+        transform: scale(1.1);
+    }
+
+    .total-card {
+        background: white;
+        padding: 2rem;
+        border-radius: var(--card-radius);
+        box-shadow: var(--shadow);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    .total-price {
+        font-size: 2rem;
+        font-weight: 800;
+        color: var(--text-dark);
+    }
+
+    .btn-validate {
+        background: linear-gradient(135deg, var(--primary-blue), var(--primary-dark));
+        border: none;
+        padding: 1rem 2rem;
+        color: white;
+        font-size: 1.2rem;
+        font-weight: 700;
+        border-radius: 14px;
+        width: 100%;
+        transition: 0.3s ease;
+    }
+
+    .btn-validate:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 25px rgba(13, 110, 253, 0.4);
+    }
+
+    .empty {
+        text-align: center;
+        padding: 4rem;
+    }
+
+    .empty i {
+        font-size: 4rem;
+        color: var(--text-muted);
+    }
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="cart-wrapper">
+    <div class="container">
+        
+        {% for type, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ type }} text-center">{{ message }}</div>
+            {% endfor %}
+        {% endfor %}
+
+        <div class="cart-card">
+            <h2 class="cart-title"><i class="bi bi-cart-check me-2"></i> My Cart</h2>
+
+            {% if cart is empty %}
+                <div class="empty">
+                    <i class="bi bi-bag-x"></i>
+                    <h3>Your cart is empty</h3>
+                    <a href="{{ path('app_product_index') }}" class="btn btn-primary mt-3">
+                        <i class="bi bi-arrow-left"></i> Back to Products
+                    </a>
+                </div>
+            {% else %}
+                {% for item in cart %}
+                    <div class="cart-item">
+                        <div class="item-image">
+                            <img src="{{ asset(item.product.image) }}" alt="">
+                        </div>
+                        <div class="item-info flex-grow-1">
+                            <h5>{{ item.product.name }}</h5>
+                            <p>Quantity: {{ item.quantity }}</p>
+                        </div>
+                        <div class="item-price me-4">{{ item.subtotal }} DT</div>
+                        <a href="{{ path('app_cart_remove', {'id': item.product.id}) }}" class="remove-btn">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+
+        {% if cart is not empty %}
+            <div class="total-card">
+                <div class="d-flex justify-content-between align-items-center mb-3">
+                    <span class="total-price">Total: {{ total }} DT</span>
+                </div>
+                <a href="{{ path('app_cart_validate') }}" class="btn-validate">
+                    <i class="bi bi-check-circle me-2"></i> Validate Cart
+                </a>
+            </div>
+        {% endif %}
+
+    </div>
+</div>
+{% endblock %}
+

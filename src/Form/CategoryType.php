@@ -17,19 +17,19 @@ class CategoryType extends AbstractType
                 'label' => 'Category Name',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'Le nom ne peut pas être vide.',
+                        'message' => 'Name cannot be empty.',
                     ]),
                     new Assert\Type([
                         'type' => 'string',
-                        'message' => 'Le nom doit être une chaîne de caractères.',
+                        'message' => 'Name must be a string.',
                     ]),
                     new Assert\Length([
                         'max' => 30,
-                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères.',
+                        'maxMessage' => 'Name cannot exceed {{ limit }} characters.',
                     ]),
                     new Assert\Regex([
                         'pattern' => '/^[A-Za-zÀ-ÖØ-öø-ÿ\s]+$/',
-                        'message' => 'Le nom ne doit contenir que des lettres et des espaces.',
+                        'message' => 'Name can only contain letters and spaces.',
                     ]),
                 ],
             ])
@@ -37,14 +37,14 @@ class CategoryType extends AbstractType
                 'label' => 'Description',
                 'constraints' => [
                     new Assert\NotBlank([
-                        'message' => 'La description ne peut pas être vide.',
+                        'message' => 'Description cannot be empty.',
                     ]),
                     new Assert\Callback(function ($value, $context) {
                         if ($value) {
                             // Compter le nombre de phrases (basé sur les points, points d'exclamation ou d'interrogation)
                             $sentences = preg_split('/[.!?]+/', trim($value), -1, PREG_SPLIT_NO_EMPTY);
                             if (count($sentences) > 1) {
-                                $context->buildViolation('La description ne doit pas dépasser 4 phrases.')
+                                $context->buildViolation('Description must not exceed 4 sentences.')
                                     ->addViolation();
                             }
                         }

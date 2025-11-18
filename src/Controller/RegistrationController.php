@@ -28,8 +28,8 @@ class RegistrationController extends AbstractController
         $form = $this->createFormBuilder($user)
             ->add('first_name', TextType::class, ['label' => 'First Name'])
             ->add('last_name', TextType::class, ['label' => 'Last Name'])
-            ->add('email', EmailType::class, ['label' => 'Email'])
             ->add('phone', TelType::class, ['label' => 'Phone'])
+            ->add('email', EmailType::class, ['label' => 'Email'])
             ->add('password', PasswordType::class, ['label' => 'Password'])
             ->add('register', SubmitType::class, ['label' => 'Register'])
             ->getForm();
@@ -50,6 +50,7 @@ class RegistrationController extends AbstractController
 
              // ----------- 📧 Envoi email automatique ----------------
             $email = (new Email())
+                ->from('amal123.benaissa@gmail.com')
                 ->to($user->getEmail()) // email du nouvel utilisateur
                 ->subject('Welcome to our website! !')
                 ->html("
@@ -61,7 +62,7 @@ class RegistrationController extends AbstractController
             $mailer->send($email);
             // ---------------------------------------------------------
 
-            $this->addFlash('success', 'Inscription réussie ! Vous pouvez maintenant vous connecter.');
+            $this->addFlash('success', 'Registration successful! You can now log in.');
             return $this->redirectToRoute('app_login');
         }
 
